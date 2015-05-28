@@ -36,8 +36,6 @@ MAX_TEST_ABUNDANT = MAX_TEST_SUM_OF_TWO_ABUNDANT - SMALLEST_ABUNDANT
 MAX_DIVISOR = MAX_TEST_ABUNDANT / 2
 
 from collections import defaultdict
-from itertools import count
-from math import sqrt
 
 # mapping from a number to its proper divisors (i.e. excluding itself?)
 divisors = defaultdict(set)
