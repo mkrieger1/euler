@@ -37,27 +37,34 @@ MAX_DIVISOR = MAX_TEST_ABUNDANT / 2
 
 from collections import defaultdict
 
-# mapping from a number to its proper divisors (i.e. excluding itself?)
-divisors = defaultdict(set)
-for divisor in range(1, MAX_DIVISOR+1):
-    for number in range(2*divisor, MAX_TEST_ABUNDANT+1, divisor):
-        divisors[number].add(divisor)
+def solve_euler23():
+    """Return the sum of all positive integers which cannot be written
+    as the sum of two abundant numbers.
+    """
+    # mapping from a number to the set of its proper divisors (i.e.,
+    # excluding the number itself)
+    divisors = defaultdict(set)
+    for divisor in range(1, MAX_DIVISOR+1):
+        for number in range(2*divisor, MAX_TEST_ABUNDANT+1, divisor):
+            divisors[number].add(divisor)
 
-def is_abundant(number):
-    """Return True if the number is abundant."""
-    return sum(divisors[number]) > number
+    def is_abundant(number):
+        return sum(divisors[number]) > number
 
-abundant_numbers = sorted(filter(is_abundant, divisors))
-# make a set so that membership can be tested efficiently
-abundant_numbers_set = set(abundant_numbers)
+    abundant_numbers = sorted(filter(is_abundant, divisors))
 
-impossible_sum_of_two_abundant_numbers = []
-for number in range(1, MAX_TEST_SUM_OF_TWO_ABUNDANT+1):
-    for abundant in abundant_numbers:
-        if number - abundant in abundant_numbers_set:
-            # is the sum of two abundant numbers
-            break
-    else:
-        impossible_sum_of_two_abundant_numbers.append(number)
+    # make a set so that membership can be tested efficiently
+    abundant_numbers_set = set(abundant_numbers)
 
-print sum(impossible_sum_of_two_abundant_numbers)
+    impossible_sum_of_two_abundant_numbers = []
+    for number in range(1, MAX_TEST_SUM_OF_TWO_ABUNDANT+1):
+        for abundant in abundant_numbers:
+            if number - abundant in abundant_numbers_set:
+                break # is the sum of two abundant numbers
+        else:
+            impossible_sum_of_two_abundant_numbers.append(number)
+
+    return sum(impossible_sum_of_two_abundant_numbers)
+
+if __name__=='__main__':
+    print solve_euler23()
