@@ -24,6 +24,8 @@ sum of two abundant numbers.
 """
 
 from collections import defaultdict
+from bisect import bisect
+from itertools import islice
 
 def sum_of_not_abundant_sums(limit=28124):
     """Return the sum of all positive integers below `limit` which cannot be
@@ -54,13 +56,10 @@ def sum_of_not_abundant_sums(limit=28124):
 
     impossible_sum_of_two_abundant_numbers = []
     for number in range(1, limit):
-        lim = number/2
-        for abundant in abundant_numbers:
+        for abundant in islice(abundant_numbers,
+                               bisect(abundant_numbers, number // 2)):
             if number - abundant in abundant_numbers_set:
                 break # is the sum of two abundant numbers
-            if abundant > lim:
-                impossible_sum_of_two_abundant_numbers.append(number)
-                break
         else:
             impossible_sum_of_two_abundant_numbers.append(number)
 
