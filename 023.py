@@ -23,21 +23,25 @@ Find the sum of all the positive integers which cannot be written as the
 sum of two abundant numbers.
 """
 
-# largest number for which we have to test if it can be expressed as the
-# sum of two abundant numbers
-MAX_TEST_SUM_OF_TWO_ABUNDANT = 28123
-
 from collections import defaultdict
 
-def solve_euler23():
-    """Return the sum of all positive integers which cannot be written
-    as the sum of two abundant numbers.
+def sum_of_not_abundant_sums(limit=28124):
+    """Return the sum of all positive integers below `limit` which cannot be
+    written as the sum of two abundant numbers.
+
+    All numbers below 24 cannot be written as the sum of two abundant numbers:
+    >>> sum_of_not_abundant_sums(24) == sum(range(24))
+    True
+
+    24 can be written as the sum of two abundant numbers:
+    >>> sum_of_not_abundant_sums(25) == sum(range(24))
+    True
     """
     # mapping from a number to the set of its proper divisors (i.e.,
     # excluding the number itself)
     divisors = defaultdict(set)
-    for divisor in range(1, MAX_TEST_SUM_OF_TWO_ABUNDANT // 2 + 1):
-        for number in range(2*divisor, MAX_TEST_SUM_OF_TWO_ABUNDANT+1, divisor):
+    for divisor in range(1, limit // 2 + 1):
+        for number in range(2 * divisor, limit, divisor):
             divisors[number].add(divisor)
 
     def is_abundant(number):
@@ -49,7 +53,7 @@ def solve_euler23():
     abundant_numbers_set = set(abundant_numbers)
 
     impossible_sum_of_two_abundant_numbers = []
-    for number in range(1, MAX_TEST_SUM_OF_TWO_ABUNDANT+1):
+    for number in range(1, limit):
         lim = number/2
         for abundant in abundant_numbers:
             if number - abundant in abundant_numbers_set:
@@ -63,4 +67,4 @@ def solve_euler23():
     return sum(impossible_sum_of_two_abundant_numbers)
 
 if __name__=='__main__':
-    print solve_euler23()
+    print sum_of_not_abundant_sums()
