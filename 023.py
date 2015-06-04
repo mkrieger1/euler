@@ -58,9 +58,13 @@ def solve_euler23():
 
     impossible_sum_of_two_abundant_numbers = []
     for number in range(1, MAX_TEST_SUM_OF_TWO_ABUNDANT+1):
+        lim = number/2
         for abundant in abundant_numbers:
             if number - abundant in abundant_numbers_set:
                 break # is the sum of two abundant numbers
+            if abundant > lim:
+                impossible_sum_of_two_abundant_numbers.append(number)
+                break
         else:
             impossible_sum_of_two_abundant_numbers.append(number)
 
