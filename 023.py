@@ -27,6 +27,26 @@ from collections import defaultdict
 from bisect import bisect
 from itertools import islice
 
+
+def _abundant_numbers(limit):
+    """Return a list of all abundant numbers below `limit`.
+
+    >>> _abundant_numbers(13)
+    [12]
+    """
+    # mapping from a number to the set of its proper divisors (i.e.,
+    # excluding the number itself)
+    divisors = defaultdict(set)
+    for divisor in range(1, limit // 2 + 1):
+        for number in range(2 * divisor, limit, divisor):
+            divisors[number].add(divisor)
+
+    def is_abundant(number):
+        return sum(divisors[number]) > number
+
+    return sorted(filter(is_abundant, divisors))
+
+
 def sum_of_not_abundant_sums(limit=28124):
     """Return the sum of all positive integers below `limit` which cannot be
     written as the sum of two abundant numbers.
@@ -39,18 +59,8 @@ def sum_of_not_abundant_sums(limit=28124):
     >>> sum_of_not_abundant_sums(25) == sum(range(24))
     True
     """
-    # mapping from a number to the set of its proper divisors (i.e.,
-    # excluding the number itself)
-    divisors = defaultdict(set)
-    for divisor in range(1, limit // 2 + 1):
-        for number in range(2 * divisor, limit, divisor):
-            divisors[number].add(divisor)
 
-    def is_abundant(number):
-        return sum(divisors[number]) > number
-
-    abundant_numbers = sorted(filter(is_abundant, divisors))
-
+    abundant_numbers = _abundant_numbers(limit)
     # make a set so that membership can be tested efficiently
     abundant_numbers_set = set(abundant_numbers)
 
@@ -64,6 +74,7 @@ def sum_of_not_abundant_sums(limit=28124):
                 yield number
 
     return sum(impossible_sum_of_two_abundant_numbers())
+
 
 if __name__=='__main__':
     print sum_of_not_abundant_sums()
