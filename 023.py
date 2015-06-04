@@ -23,14 +23,12 @@ Find the sum of all the positive integers which cannot be written as the
 sum of two abundant numbers.
 """
 
-SMALLEST_ABUNDANT = 12
-
 # largest number for which we have to test if it can be expressed as the
 # sum of two abundant numbers
 MAX_TEST_SUM_OF_TWO_ABUNDANT = 28123
 
 # largest number for which we have to know if it is abundant
-MAX_TEST_ABUNDANT = MAX_TEST_SUM_OF_TWO_ABUNDANT - SMALLEST_ABUNDANT
+MAX_TEST_ABUNDANT = MAX_TEST_SUM_OF_TWO_ABUNDANT
 
 # largest possible divisor that we have to consider
 MAX_DIVISOR = MAX_TEST_ABUNDANT / 2
