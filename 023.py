@@ -27,11 +27,8 @@ sum of two abundant numbers.
 # sum of two abundant numbers
 MAX_TEST_SUM_OF_TWO_ABUNDANT = 28123
 
-# largest number for which we have to know if it is abundant
-MAX_TEST_ABUNDANT = MAX_TEST_SUM_OF_TWO_ABUNDANT
-
 # largest possible divisor that we have to consider
-MAX_DIVISOR = MAX_TEST_ABUNDANT / 2
+MAX_DIVISOR = MAX_TEST_SUM_OF_TWO_ABUNDANT / 2
 
 from collections import defaultdict
 
@@ -43,7 +40,7 @@ def solve_euler23():
     # excluding the number itself)
     divisors = defaultdict(set)
     for divisor in range(1, MAX_DIVISOR+1):
-        for number in range(2*divisor, MAX_TEST_ABUNDANT+1, divisor):
+        for number in range(2*divisor, MAX_TEST_SUM_OF_TWO_ABUNDANT+1, divisor):
             divisors[number].add(divisor)
 
     def is_abundant(number):
