@@ -54,16 +54,16 @@ def sum_of_not_abundant_sums(limit=28124):
     # make a set so that membership can be tested efficiently
     abundant_numbers_set = set(abundant_numbers)
 
-    impossible_sum_of_two_abundant_numbers = []
-    for number in range(1, limit):
-        for abundant in islice(abundant_numbers,
-                               bisect(abundant_numbers, number // 2)):
-            if number - abundant in abundant_numbers_set:
-                break # is the sum of two abundant numbers
-        else:
-            impossible_sum_of_two_abundant_numbers.append(number)
+    def impossible_sum_of_two_abundant_numbers():
+        for number in range(1, limit):
+            for abundant in islice(abundant_numbers,
+                                   bisect(abundant_numbers, number // 2)):
+                if number - abundant in abundant_numbers_set:
+                    break # is the sum of two abundant numbers
+            else:
+                yield number
 
-    return sum(impossible_sum_of_two_abundant_numbers)
+    return sum(impossible_sum_of_two_abundant_numbers())
 
 if __name__=='__main__':
     print sum_of_not_abundant_sums()
