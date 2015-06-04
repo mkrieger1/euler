@@ -27,9 +27,6 @@ sum of two abundant numbers.
 # sum of two abundant numbers
 MAX_TEST_SUM_OF_TWO_ABUNDANT = 28123
 
-# largest possible divisor that we have to consider
-MAX_DIVISOR = MAX_TEST_SUM_OF_TWO_ABUNDANT / 2
-
 from collections import defaultdict
 
 def solve_euler23():
@@ -39,7 +36,7 @@ def solve_euler23():
     # mapping from a number to the set of its proper divisors (i.e.,
     # excluding the number itself)
     divisors = defaultdict(set)
-    for divisor in range(1, MAX_DIVISOR+1):
+    for divisor in range(1, MAX_TEST_SUM_OF_TWO_ABUNDANT // 2 + 1):
         for number in range(2*divisor, MAX_TEST_SUM_OF_TWO_ABUNDANT+1, divisor):
             divisors[number].add(divisor)
 
