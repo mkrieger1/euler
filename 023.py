@@ -28,6 +28,42 @@ from bisect import bisect
 from itertools import islice
 
 
+# credits to Gareth Rees (http://codereview.stackexchange.com/a/92079/67888)
+def all_sum_divisors(limit):
+    """Return a list of the sums of divisors for the numbers below `limit`.
+
+    >>> all_sum_divisors(10) # https://oeis.org/A000203
+    [1, 1, 3, 4, 7, 6, 12, 8, 15, 13]
+    """
+    result = [1] * limit
+    for p in range(2, limit):
+        if result[p] > 1: # p is not prime
+            continue
+        p_power = p # p, p^2, p^3, ...
+        last_m = 1 # 1, (1 + p), (1 + p + p^2), ...
+        while p_power < limit:
+            m = last_m + p_power # (1 + p), (1 + p + p^2), ...
+            # loop over all multiples of p_power below limit
+            for i in range(p_power, limit, p_power):
+                result[i] //= last_m
+                result[i] *= m
+            last_m = m
+            p_power *= p
+    # now, when
+    #     i = 2^a * 3^b * 5^c * ...
+    # then
+    #     result[i] = (1 + 2 + ... + 2^a) * (1 + 3 + ... + 3^b) * ...
+    return result
+
+def _abundant_numbers2(limit):
+    sum_divisors = all_sum_divisors(limit)
+
+    def is_abundant(number):
+        return sum_divisors[number] > 2 * number
+
+    return filter(is_abundant, range(2, limit))
+
+
 def _abundant_numbers(limit):
     """Return a list of all abundant numbers below `limit`.
 
@@ -60,7 +96,9 @@ def sum_of_not_abundant_sums(limit=28124):
     True
     """
 
-    abundant_numbers = _abundant_numbers(limit)
+    #abundant_numbers = _abundant_numbers(limit)
+    abundant_numbers = _abundant_numbers2(limit)
+
     # make a set so that membership can be tested efficiently
     abundant_numbers_set = set(abundant_numbers)
 
