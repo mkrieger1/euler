@@ -64,12 +64,7 @@ def _abundant_numbers2(limit):
     return filter(is_abundant, range(2, limit))
 
 
-def _abundant_numbers(limit):
-    """Return a list of all abundant numbers below `limit`.
-
-    >>> _abundant_numbers(13)
-    [12]
-    """
+def _abundant_numbers1(limit):
     # mapping from a number to the set of its proper divisors (i.e.,
     # excluding the number itself)
     divisors = defaultdict(set)
@@ -81,6 +76,16 @@ def _abundant_numbers(limit):
         return sum(divisors[number]) > number
 
     return sorted(filter(is_abundant, divisors))
+
+
+def abundant_numbers(limit):
+    """Return a list of all abundant numbers below `limit`.
+
+    >>> abundant_numbers(13)
+    [12]
+    """
+    #return _abundant_numbers1(limit)
+    return _abundant_numbers2(limit)
 
 
 def sum_of_not_abundant_sums(limit=28124):
@@ -96,17 +101,15 @@ def sum_of_not_abundant_sums(limit=28124):
     True
     """
 
-    #abundant_numbers = _abundant_numbers(limit)
-    abundant_numbers = _abundant_numbers2(limit)
+    abundants = abundant_numbers(limit)
 
     # make a set so that membership can be tested efficiently
-    abundant_numbers_set = set(abundant_numbers)
+    abundants_set = set(abundants)
 
     def impossible_sum_of_two_abundant_numbers():
         for number in range(1, limit):
-            for abundant in islice(abundant_numbers,
-                                   bisect(abundant_numbers, number // 2)):
-                if number - abundant in abundant_numbers_set:
+            for abundant in islice(abundants, bisect(abundants, number // 2)):
+                if number - abundant in abundants_set:
                     break # is the sum of two abundant numbers
             else:
                 yield number
