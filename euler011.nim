@@ -11,10 +11,10 @@ type
     row, col: Positive
 
   Direction = enum
-    dirHorizontal
-    dirVertical
-    dirDiagTopLeft
-    dirDiagTopRight
+    rightUp
+    right
+    rightDown
+    down
 
 func initGrid(s: string): Grid =
   var i = 0
@@ -29,15 +29,15 @@ proc `[]`(g: Grid, p: GridPosition): Natural =
 func nextNeighbor(p: GridPosition, d: Direction): GridPosition =
   result = p
   case d:
-  of dirDiagTopRight:
+  of rightUp:
     dec result.row
     inc result.col
-  of dirHorizontal:
+  of right:
     inc result.col
-  of dirDiagTopLeft:
+  of rightDown:
     inc result.row
     inc result.col
-  of dirVertical:
+  of down:
     inc result.row
 
 func product(g: Grid, start: GridPosition, d: Direction): Natural =
@@ -50,17 +50,17 @@ func product(g: Grid, start: GridPosition, d: Direction): Natural =
 func largestProduct(g: Grid, d: Direction): Natural =
   let startRow =
     case d:
-    of dirDiagTopRight: productLength
+    of rightUp: productLength
     else: 1
   let endRow =
     case d:
-    of dirDiagTopRight: gridSize
-    of dirHorizontal: gridSize
+    of rightUp: gridSize
+    of right: gridSize
     else: gridSize - productLength
   let startCol = 1
   let endCol =
     case d:
-    of dirVertical: gridSize
+    of down: gridSize
     else: gridSize - productLength
 
   result = 0
