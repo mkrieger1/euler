@@ -17,8 +17,9 @@ iterator sievePrimes(upperBound: Natural): Natural =
       continue
     yield candidate
 
-func sumOfPrimesBelow(n: Natural): Natural =
-  for prime in sievePrimes(n):
+func sumOfPrimesBelow(n: Positive): Natural =
+  for prime in sievePrimes(n - 1):
     result += prime
 
-echo sumOfPrimesBelow 2000000
+when isMainModule:
+  echo sumOfPrimesBelow 2000000
