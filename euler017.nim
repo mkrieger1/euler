@@ -15,14 +15,15 @@ func teens(n: Positive): string =
   else: ones(n - 10) & "teen"
 
 func tens(n: Positive): string =
-  assert 2 <= n and n <= 9
-  case n:
+  let t = n div 10
+  assert 2 <= t and t <= 9
+  case t:
   of 2: "twenty"
   of 3: "thirty"
   of 4: "forty"
   of 5: "fifty"
   of 8: "eighty"
-  else: ones(n) & "ty"
+  else: ones(t) & "ty"
 
 func toWords(n: Positive): seq[string] =
   assert n <= 1000
@@ -46,7 +47,7 @@ func toWords(n: Positive): seq[string] =
   elif t < 20:
     result.add teens(t)
   else:
-    result.add tens(t div 10)
+    result.add tens(t)
     if o == 0:
       return
     result.add ones(o)
