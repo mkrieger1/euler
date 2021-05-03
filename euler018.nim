@@ -39,8 +39,10 @@ proc maxPathSum(t: Triangle, p: Position): Natural =
     sums[p] = s + t[p]
   sums[p]
 
-when isMainModule:
-  let t = """
+when defined(problem67):
+  const t = staticRead"p067_triangle.txt".toTriangle
+else:
+  const t = """
                        75
                      95 64
                     17 47 82
@@ -58,4 +60,5 @@ when isMainModule:
   04 62 98 27 23 09 70 98 73 93 38 53 60 04 23
   """.toTriangle
 
+when isMainModule:
   echo t.maxPathSum(Position(row: 0, i: 0))
