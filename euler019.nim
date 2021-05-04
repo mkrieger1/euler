@@ -31,9 +31,11 @@ func daysInMonth(m: Month, y: Year): int =
     if y.isLeapYear: 29
     else: 28
 
+proc inc(d: var Weekday, numDays: int = 1) =
+  d = ((ord(d) + numDays) mod numWeekdays).Weekday
+
 proc inc(f: var FirstOfMonth) =
-  f.weekday =
-    ((ord(f.weekday) + daysInMonth(f.month, f.year)) mod numWeekdays).Weekday
+  inc f.weekday, daysInMonth(f.month, f.year)
   if f.month == Dec:
     f.month = Jan
     inc f.year
